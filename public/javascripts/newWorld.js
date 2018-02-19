@@ -254,6 +254,7 @@ function build3DSpace() {
  */
 function drawDataset(xCol, yCol, zCol)
 {
+  console.log("Called drawDataset()");
   assert(parsedData, 'parsedData must be defined for drawDataset()');
   assert(xCol >= 0,
     'drawDataset() xCol value must be a positive integer');
