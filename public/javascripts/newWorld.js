@@ -220,18 +220,37 @@ function build3DSpace() {
     sceneJSON = JSON.stringify(sceneJSON);
 
   }
-  console.log("About to post:" + sceneJSON);
+
+  //Export the parsedData array as a JSON object.
+  var datasetJSON = JSON.stringify(parsedData);
+  try {
+
+    datasetJSON = JSON.stringify(datasetJSON, parseNumber, '\t');
+    datasetJSON = output.replace(/[\n\t]+([\d\.e\-\[\]]+)/g, '$1');
+
+  } catch (e) {
+
+    datasetJSON = JSON.stringify(datasetJSON);
+
+  }
+
+  //Combine them into one object for firebase
+  var sceneAndDataJSON = "{\"scene\":" + sceneJSON + ",\"dataset\":" + JSON.parse(datasetJSON) + "}";
+
+  //Post it to firebase
+  console.log("About to post:" + sceneAndDataJSON);
   $.ajax({
     type: "POST",
     contentType: "application/json",
     url: '/uploadWorld',
-    data: sceneJSON,
+    data: sceneAndDataJSON,
     success: function(response) {
       $('#myModal').modal('hide');
       console.log("Post response is: " + response);
       reloadWorlds();
     }
   });
+
   initializeSelectionControls();
 
 }

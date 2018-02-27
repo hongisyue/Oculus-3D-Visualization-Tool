@@ -13,6 +13,7 @@ var pointSelectionMouse = new THREE.Vector2();
 
 function initializeSelectionControls()
 {
+  /*
   if (controller != null)
   {
     // Attach raycaster to VRcontroller
@@ -20,6 +21,7 @@ function initializeSelectionControls()
   // setup mouse raycaster
   document.addEventListener( 'mousemove', onMouseMove, false );
   //document.addEventListener( 'click', setClicked, false );
+  */
 }
 
 

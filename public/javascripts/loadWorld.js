@@ -80,7 +80,7 @@ var GameLoop = function(timestamp) {
 
 function Manager() {
   //Initialize camera, scene, and renderer
-  //First get the scene from the data base
+  //First get the scene and parsedData from the data base
   var retrievedString = sessionStorage.getItem('selectedID');
   worldID = JSON.parse(retrievedString);
   console.log(worldID);
@@ -95,8 +95,9 @@ function Manager() {
       console.log("Loading: " + JSON.stringify(response));
       var loader = new THREE.ObjectLoader();
       var object = loader.parse(response);
-
-      scene.add( object );
+      var sceneObject = object.scene;
+      parsedData = object.dataset;
+      scene.add( sceneObject );
     }
   });
 
