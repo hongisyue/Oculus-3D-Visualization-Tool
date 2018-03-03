@@ -209,6 +209,8 @@ function build3DSpace() {
 
   sceneJSON = JSON.parse(JSON.stringify(sceneJSON));
   console.log(writeWorld(sceneJSON)); //writes the world and logs the world id
+  $('#myModal').modal('hide');
+  reloadWorlds();
 
 
   // try {
@@ -222,17 +224,17 @@ function build3DSpace() {
   //
   // }
 
-  // $.ajax({
-  //   type: "POST",
-  //   contentType: "application/json",
-  //   url: '/uploadWorld',
-  //   data: sceneJSON,
-  //   success: function(response) {
-  //     $('#myModal').modal('hide');
-  //     console.log("Post response is: " + response);
-  //     reloadWorlds();
-  //   }
-  // });
+  $.ajax({
+    type: "POST",
+    contentType: "application/json",
+    url: '/uploadWorld',
+    data: sceneJSON,
+    success: function(response) {
+      $('#myModal').modal('hide');
+      console.log("Post response is: " + response);
+      reloadWorlds();
+    }
+  });
 }
 
 function addParsedDataToScene()

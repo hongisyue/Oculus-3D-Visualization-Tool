@@ -99,6 +99,18 @@ function Manager() {
 
 
   console.log("Getting Scene from Firebase...");
+  var firebaseResponse = readWorld(worldID);
+
+  console.log("Loading: " + JSON.stringify(firebaseResponse));
+  var loader = new THREE.ObjectLoader();
+  var object = loader.parse(firebaseResponse);
+  scene.add( object );
+  loadedDataset = object.userData ;
+  console.log(loadedDataset);
+  console.log(object);
+  drawDataset(userData[0][0],userData[0][1],userData[0][2]);
+
+/*
   $.ajax({
     type: "GET",
     contentType: "application/json",
@@ -113,7 +125,7 @@ function Manager() {
       console.log(object);
       drawDataset(userData[0][0],userData[0][1],userData[0][2]);
     }
-  });
+  });*/
 
 /*
   var newWindow = window.open("");
