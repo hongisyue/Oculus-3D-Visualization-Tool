@@ -131,24 +131,28 @@ function createUserDB(firebaseUID){
 //******************************************************************************
 
 //Read World
-//Input: the world id (string)
+//Input: the world id (string), callback function that handles the result
 //Returns: the world contents as json
-function readWorld(worldId){
+function readWorld(worldId, callback){
 	var firebaseWorld;
   return database.ref('worlds/'+worldId).once('value').then(function(snapshot){
 		firebaseWorld = snapshot.val();
-		console.log(firebaseWorld);
     var numGeom = firebaseWorld.geometries.length;
 
     for (var i=0; i<numGeom; i++){
       firebaseWorld.geometries[i].data["normals"] = [];
       firebaseWorld.geometries[i].data["faces"] = [];
     }
-	}).then(function () {return firebaseWorld});
+		callback(firebaseWorld);
+	});
 }
 
-var result = readWorld('-L6cciLgse7gqXZ62iLp');
-console.log(result);
+// function handleWorld(world){
+// 	console.log('world is '+world);
+// }
+//
+// readWorld('-L6cciLgse7gqXZ62iLp', handleWorld);
+
 
 //Write World to Database
 //Input: the world contents in json format

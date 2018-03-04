@@ -87,10 +87,10 @@ function Manager() {
   //First get the scene from the data base
   var retrievedString = sessionStorage.getItem('selectedID');
   worldID = JSON.parse(retrievedString);
-  console.log(worldID);
+  console.log('worldID is: '+worldID);
   scene = new THREE.Scene();
   var worldURL = '/worlds/' + worldID;
-  console.log(worldURL);
+  // console.log(worldURL);
 
   /*
   FIREBASE GET
@@ -126,6 +126,36 @@ function Manager() {
       drawDataset(userData[0][0],userData[0][1],userData[0][2]);
     }
   });*/
+  function loadScene(response){
+    console.log("Loading: " + JSON.stringify(response));
+    var loader = new THREE.ObjectLoader();
+    var object = loader.parse(response);
+    scene.add( object );
+    loadedDataset = object.userData ;
+    console.log(loadedDataset);
+    console.log(object);
+    drawDataset(userData[0][0],userData[0][1],userData[0][2]);
+  }
+
+  console.log("Getting Scene from Firebase...");
+
+  readWorld(worldID, loadScene);
+
+  // $.ajax({
+  //   type: "GET",
+  //   contentType: "application/json",
+  //   url: worldURL,
+  //   success: function(response) {
+  //     console.log("Loading: " + JSON.stringify(response));
+  //     var loader = new THREE.ObjectLoader();
+  //     var object = loader.parse(response);
+  //     scene.add( object );
+  //     loadedDataset = object.userData ;
+  //     console.log(loadedDataset);
+  //     console.log(object);
+  //     drawDataset(userData[0][0],userData[0][1],userData[0][2]);
+  //   }
+  // });
 
 /*
   var newWindow = window.open("");
