@@ -223,7 +223,7 @@ function build3DSpace() {
   //   sceneJSON = JSON.stringify(sceneJSON);
   //
   // }
-
+/*
   $.ajax({
     type: "POST",
     contentType: "application/json",
@@ -235,6 +235,7 @@ function build3DSpace() {
       reloadWorlds();
     }
   });
+  */
 }
 
 function addParsedDataToScene()

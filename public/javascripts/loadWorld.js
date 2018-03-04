@@ -97,7 +97,7 @@ function Manager() {
   */
 
 
-
+/*
   console.log("Getting Scene from Firebase...");
   var firebaseResponse = readWorld(worldID);
 
@@ -109,7 +109,7 @@ function Manager() {
   console.log(loadedDataset);
   console.log(object);
   drawDataset(userData[0][0],userData[0][1],userData[0][2]);
-
+*/
 /*
   $.ajax({
     type: "GET",
