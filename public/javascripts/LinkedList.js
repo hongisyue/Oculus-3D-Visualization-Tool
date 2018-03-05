@@ -1,8 +1,8 @@
 function LinkedList() {
-  var length = 0;
-  var head = null;
+  let length = 0;
+  let head = null;
 
-  var Node = function(element) {
+  let Node = function(element) {
     this.element = element;
     this.next = null;
   };
@@ -16,11 +16,11 @@ function LinkedList() {
   };
 
   this.add = function(element) {
-    var node = new Node(element);
+    let node = new Node(element);
     if (head === null) {
       head = node;
     } else {
-      var currentNode = head;
+      let currentNode = head;
 
       while (currentNode.next) {
         currentNode = currentNode.next;
@@ -33,8 +33,8 @@ function LinkedList() {
   };
 
   this.remove = function(element) {
-    var currentNode = head;
-    var previousNode;
+    let currentNode = head;
+    let previousNode;
     if (currentNode.element === element) {
       head = currentNode.next;
     } else {
@@ -54,8 +54,8 @@ function LinkedList() {
   };
 
   this.indexOf = function(element) {
-    var currentNode = head;
-    var index = -1;
+    let currentNode = head;
+    let index = -1;
 
     while (currentNode) {
       index++;
@@ -69,22 +69,22 @@ function LinkedList() {
   };
 
   this.elementAt = function(index) {
-    var currentNode = head;
-    var count = 0;
+    let currentNode = head;
+    let count = 0;
     while (count < index) {
       count++;
-      currentNode = currentNode.next
+      currentNode = currentNode.next;
     }
     return currentNode.element;
   };
 
 
   this.addAt = function(index, element) {
-    var node = new Node(element);
+    let node = new Node(element);
 
-    var currentNode = head;
-    var previousNode;
-    var currentIndex = 0;
+    let currentNode = head;
+    let previousNode;
+    let currentIndex = 0;
 
     if (index > length) {
       return false;
@@ -103,14 +103,14 @@ function LinkedList() {
       previousNode.next = node;
     }
     length++;
-  }
+  };
 
   this.removeAt = function(index) {
-    var currentNode = head;
-    var previousNode;
-    var currentIndex = 0;
+    let currentNode = head;
+    let previousNode;
+    let currentIndex = 0;
     if (index < 0 || index >= length) {
-      return null
+      return null;
     }
     if (index === 0) {
       head = currentNode.next;
@@ -120,18 +120,18 @@ function LinkedList() {
         previousNode = currentNode;
         currentNode = currentNode.next;
       }
-      previousNode.next = currentNode.next
+      previousNode.next = currentNode.next;
     }
     length--;
     return currentNode.element;
-  }
+  };
 
-  //Prints the entire list to the console
+  // Prints the entire list to the console
   this.toString = function() {
-    var currentSize = this.size();
-    for (var i = 0; i < currentSize; i++) {
+    let currentSize = this.size();
+    for (let i = 0; i < currentSize; i++) {
       console.log(this.elementAt(i));
     }
-  }
+  };
 
 }

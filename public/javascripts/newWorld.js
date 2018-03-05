@@ -4,14 +4,14 @@
  * CSV files data points. This will export a JSON file containing the scene.
  */
 
-var parsedData; //Parsed data obtained from the CSV
-//The following are to be accessed like so: parsedData[i][x_AxisIndex]
-//parsedData[i][x_AxisIndex]
-//parsedData[i][y_AxisIndex]
-//parsedData[i][z_AxisIndex]
-var x_AxisIndex; //The x-axis index of which to use for scatter plot positioning
-var y_AxisIndex; //The y-axis of which to use for scatter plot positioning
-var z_AxisIndex; //The z-axis of which to use for scatter plot positioning
+var parsedData; // Parsed data obtained from the CSV
+// The following are to be accessed like so: parsedData[i][x_AxisIndex]
+// parsedData[i][x_AxisIndex]
+// parsedData[i][y_AxisIndex]
+// parsedData[i][z_AxisIndex]
+var x_AxisIndex; // The x-axis index of which to use for scatter plot positioning
+var y_AxisIndex; // The y-axis of which to use for scatter plot positioning
+var z_AxisIndex; // The z-axis of which to use for scatter plot positioning
 
 /**
  * Function is called when the csv file is loaded in from the localLoad.
@@ -21,41 +21,41 @@ var z_AxisIndex; //The z-axis of which to use for scatter plot positioning
  * prompted to input their axis values.
  */
 function loadCSVLocal() {
-  //Grab the file from the html dom system
-  var file = document.getElementById('csv-file').files[0];
+  // Grab the file from the html dom system
+  let file = document.getElementById('csv-file').files[0];
 
   Papa.parse(file, {
-    //header: true,
+    // header: true,
     dynamicTyping: true,
-    error: function(error) { //error callback
+    error: function(error) { // error callback
       SomethingWentWrong(error);
     },
-    complete: function(results) { //success call back
+    complete: function(results) { // success call back
       parsedData = results.data;
       success();
-    }
+    },
   });
 
-  //Message if there is success
+  // Message if there is success
   function success() {
-    //Data is stored in the browser storage and can be retrieved and used on
-    //other html pages
+    // Data is stored in the browser storage and can be retrieved and used on
+    // other html pages
     getOptions();
 
-    //Clean up webpage and notify of success
-    var toRemove = document.getElementById('formGroup');
+    // Clean up webpage and notify of success
+    let toRemove = document.getElementById('formGroup');
     document.getElementById('localLoadLabel').remove();
     toRemove.remove();
-    var continueButton = document.getElementById('continueToVirtual');
+    let continueButton = document.getElementById('continueToVirtual');
     continueButton.innerHTML = '<a href="#" class="btn btn-success" role="button" onclick="getResults()">Continue</a> ';
   }
 
-  //Message if there is an error
+  // Message if there is an error
   function SomethingWentWrong(error) {
     console.log(error);
 
-    //display error info on the webpage
-    var message = document.getElementById('successMessage');
+    // display error info on the webpage
+    let message = document.getElementById('successMessage');
     message.innerHTML = '<br><div class="alert alert-danger"><strong>Error!</strong> ';
   }
 }
@@ -68,43 +68,43 @@ function loadCSVLocal() {
  * prompted to input their axis values.
  */
 function loadCSVremote() {
-  //Grab the file from the html dom system
-  var url = document.getElementById('csvURL').value;
+  // Grab the file from the html dom system
+  let url = document.getElementById('csvURL').value;
 
   Papa.parse(url, {
     download: true,
-    //header: true,
+    // header: true,
     dynamicTyping: true,
-    error: function(error) { //error callback
+    error: function(error) { // error callback
       SomethingWentWrong(error);
     },
-    complete: function(results) { //success call back
+    complete: function(results) { // success call back
       parsedData = results.data;
       success();
-    }
+    },
   });
 
-  //Message if there is success
+  // Message if there is success
   function success() {
-    //Data is stored in the browser storage and can be retrieved and used on
-    //other html pages
+    // Data is stored in the browser storage and can be retrieved and used on
+    // other html pages
     getOptions();
 
 
-    //Clean up webpage and notify of success
-    var toRemove = document.getElementById('urlBar');
+    // Clean up webpage and notify of success
+    let toRemove = document.getElementById('urlBar');
     toRemove.remove();
     document.getElementById('localLoadLabel').remove();
-    var continueButton = document.getElementById('continueToVirtual');
+    let continueButton = document.getElementById('continueToVirtual');
     continueButton.innerHTML = '<a href="#" class="btn btn-success" role="button" onclick="getResults()">Continue</a> ';
   }
 
-  //Message if there is an error
+  // Message if there is an error
   function SomethingWentWrong(error) {
     console.log(error);
 
-    //display error info on the webpage
-    var message = document.getElementById('successMessage');
+    // display error info on the webpage
+    let message = document.getElementById('successMessage');
     message.innerHTML = '<br><div class="alert alert-danger"><strong>Error!</strong> Wrong URL?</div> ';
   }
 }
@@ -115,11 +115,11 @@ function loadCSVremote() {
  * Responsible for populating and displaying the dropdown menus on the load screen
  */
 function getOptions() {
-  var dropdownOptions = [];
+  let dropdownOptions = [];
   for (i = 0; i < parsedData[0].length; i++) {
     dropdownOptions.push({
       id: i,
-      text: parsedData[0][i]
+      text: parsedData[0][i],
     });
   }
 
@@ -127,11 +127,11 @@ function getOptions() {
     $('.js-responsive-dropdown').select2({
       placeholder: 'Select axis',
       data: dropdownOptions,
-      dropdownParent: $('.modal')
+      dropdownParent: $('.modal'),
     });
   });
 
-  document.getElementById("dropDownForInit").style = "display:block";
+  document.getElementById('dropDownForInit').style = 'display:block';
 
 }
 
@@ -140,33 +140,33 @@ function getOptions() {
  * with key 'initialAxisValues'
  */
 function getResults() {
-  //Get results from the dropdown
+  // Get results from the dropdown
   x_AxisIndex = $('#x-axis :selected').val();
   y_AxisIndex = $('#y-axis :selected').val();
   z_AxisIndex = $('#z-axis :selected').val();
-  //All commented out because select2 stopped working in modal box
-  //var XAxis = $('#x-axis').select2('data');
-  //var YAxis = $('#y-axis').select2('data');
-  //var ZAxis = $('#z-axis').select2('data');
-  //Remove the objects
-  //XAxis = XAxis[0].id;
-  //YAxis = YAxis[0].id;
-  //ZAxis = ZAxis[0].id;
+  // All commented out because select2 stopped working in modal box
+  // var XAxis = $('#x-axis').select2('data');
+  // var YAxis = $('#y-axis').select2('data');
+  // var ZAxis = $('#z-axis').select2('data');
+  // Remove the objects
+  // XAxis = XAxis[0].id;
+  // YAxis = YAxis[0].id;
+  // ZAxis = ZAxis[0].id;
   build3DSpace();
 }
 
 /**
  * Below is everything necessary to build a new 3d world
  */
-var scene; //The scene to which all elements are added to
+var scene; // The scene to which all elements are added to
 
 function build3DSpace() {
-  //Initialize camera, scene, and renderer
+  // Initialize camera, scene, and renderer
   scene = new THREE.Scene();
-  scene.name = "Scene";
+  scene.name = 'Scene';
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-  //Add light and floor
-  var light = new THREE.DirectionalLight(0xFFFFFF, 1, 100);
+  // Add light and floor
+  let light = new THREE.DirectionalLight(0xFFFFFF, 1, 100);
   light.position.set(1, 10, -0.5);
   light.castShadow = true;
   light.shadow.mapSize.width = 2048;
@@ -177,12 +177,12 @@ function build3DSpace() {
   scene.add(new THREE.HemisphereLight(0x909090, 0x404040));
   addParsedDataToScene();
 
-  //Export the built world
-  var sceneJSON = this.scene.toJSON();
+  // Export the built world
+  let sceneJSON = this.scene.toJSON();
   console.log(JSON.stringify(sceneJSON));
   sceneJSON = JSON.parse(JSON.stringify(sceneJSON));
 
-  writeWorld(sceneJSON); //writes the world and logs the world id
+  writeWorld(sceneJSON); // writes the world and logs the world id
   $('#myModal').modal('hide');
   console.log('world written');
   reloadWorlds();
@@ -196,13 +196,12 @@ function build3DSpace() {
  * @pre y_AxisIndex must be >= 0
  * @pre z_AxisIndex must be >= 0
  */
-function addParsedDataToScene()
-{
-  assert(parsedData,"");
-  assert(x_AxisIndex >= 0,"");
-  assert(y_AxisIndex >= 0,"");
-  assert(z_AxisIndex >= 0,"");
-  scene.userData = Array.concat([[x_AxisIndex,y_AxisIndex,z_AxisIndex]], parsedData);
+function addParsedDataToScene() {
+  assert(parsedData, "");
+  assert(x_AxisIndex >= 0, "");
+  assert(y_AxisIndex >= 0, "");
+  assert(z_AxisIndex >= 0, "");
+  scene.userData = Array.concat([[x_AxisIndex, y_AxisIndex, z_AxisIndex]], parsedData);
 }
 
 /**
@@ -212,6 +211,6 @@ function addParsedDataToScene()
  */
 function assert(condition, message) {
   if (!condition) {
-    throw message || "Assertion failed";
+    throw message || 'Assertion failed';
   }
 }

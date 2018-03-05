@@ -6,21 +6,19 @@
  * visualization.
  **/
 
-var selectedPoints = [];  //array containing the indices of every currently
-                          //selected point.
+var selectedPoints = []; // array containing the indices of every currently
+                          // selected point.
 var pointSelectionRaycaster = new THREE.Raycaster();
 var pointSelectionMouse = new THREE.Vector2();
-var selectionThreshold = 1; //the distance the mouse has to be from a point
-                            //in order for it to register as selectable
+var selectionThreshold = 1; // the distance the mouse has to be from a point
+                            // in order for it to register as selectable
 var intersects;
 
 /**
  * Initializes the event listeners for point selection
  */
-function initializeSelectionControls()
-{
-  if (controller != null)
-  {
+function initializeSelectionControls() {
+  if (controller != null) {
     // TODO Attach raycaster to VRcontroller
   }
   // setup mouse raycaster here
@@ -33,16 +31,15 @@ function initializeSelectionControls()
  * Call this in GameLoop or Update to detect raycaster intersections on every
  * frame.
  */
-function pointSelectionUpdate()
-{
+function pointSelectionUpdate() {
   // calculate objects intersecting the ray
   pointSelectionRaycaster.setFromCamera(pointSelectionMouse, camera);
   intersects = pointSelectionRaycaster.intersectObject( pointsSystem );
-  intersects = ( intersects.length ) > 0 ? intersects[ 0 ] : null;
+  intersects = ( intersects.length ) > 0 ? intersects[0] : null;
 
   if (intersects != null) {
-    //console.log(intersects.point.x + " " + intersects.point.y + " " + intersects.point.z);
-    for (var i = 0; i < pointsGeometry.getAttribute('position').array.length; i++) {
+    // console.log(intersects.point.x + " " + intersects.point.y + " " + intersects.point.z);
+    for (let i = 0; i < pointsGeometry.getAttribute('position').array.length; i++) {
       if (Math.abs(pointsGeometry.getAttribute('position').array[i].x - intersects.point.x) < selectionThreshold
         && Math.abs(pointsGeometry.getAttribute('position').array[i].y - intersects.point.y) < selectionThreshold
         && Math.abs(pointsGeometry.getAttribute('position').array[i].z - intersects.point.z) < selectionThreshold) {
@@ -57,17 +54,15 @@ function pointSelectionUpdate()
  * @param pointIndex : The array index of point you want to select in the
  *                     BufferGeometry that you want to select.
  */
-function selectPoint(pointIndex)
-{
+function selectPoint(pointIndex) {
   pointsGeometry.getAttribute( 'isSelected' ).array[pointIndex] =
       !pointsGeometry.getAttribute( 'isSelected' ).array[pointIndex];
-  if(pointsGeometry.getAttribute( 'isSelected' ).array[pointIndex] == false){
+  if (pointsGeometry.getAttribute( 'isSelected' ).array[pointIndex] == false) {
       selectedPoints.splice(selectedPoints.indexOf(pointIndex));
       setPointColor(pointIndex, colorFromXYZcoords(pointsGeometry.getAttribute('position')).array[pointIndex]);
       setPointScale(pointIndex, pointsGeometry.getAttribute('size').array[pointIndex] =
           pointsGeometry.getAttribute('size').array[pointIndex] * 2/3);
-  }
-  else{
+  } else {
       selectedPoints.push(pointIndex);
       setPointColor(pointIndex, new THREE.Color(1, 1, 1));
       setPointScale(pointIndex, pointsGeometry.getAttribute('size').array[pointIndex] =
@@ -78,11 +73,10 @@ function selectPoint(pointIndex)
 /**
  * Clears all selected points
  */
-function clearSelection()
-{
-  var selected = pointsGeometry.getAttribute( 'isSelected' ).array;
-  for(var i = 0; i < selected.length; i++){
-    if(selected[i] == true){
+function clearSelection() {
+  let selected = pointsGeometry.getAttribute( 'isSelected' ).array;
+  for (let i = 0; i < selected.length; i++) {
+    if (selected[i] == true) {
       selected[i] = false;
     }
   }
@@ -96,7 +90,6 @@ function clearSelection()
  * @param event
  */
 function onMouseMove( event ) {
-
   event.preventDefault();
   pointSelectionMouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
   pointSelectionMouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -107,11 +100,10 @@ function onMouseMove( event ) {
  * raycaster.
  * @param event
  */
-function onClick( event ){
-
+function onClick( event ) {
   event.preventDefault();
   if (intersects != null) {
-    for (var i = 0; i < pointsGeometry.getAttribute('position').array.length; i++) {
+    for (let i = 0; i < pointsGeometry.getAttribute('position').array.length; i++) {
       if (Math.abs(pointsGeometry.getAttribute('position').array[i].x - intersects.point.x) < selectionThreshold
         && Math.abs(pointsGeometry.getAttribute('position').array[i].y - intersects.point.y) < selectionThreshold
         && Math.abs(pointsGeometry.getAttribute('position').array[i].z - intersects.point.z) < selectionThreshold) {
@@ -130,8 +122,7 @@ function onClick( event ){
  * @param {Integer} datasetIndex : index of point to change
  * @param {Vector3} colorRGB : a Vector3 of RGB values (0-1.0)
  */
-function setPointColor(datasetIndex, colorRGB)
-{
+function setPointColor(datasetIndex, colorRGB) {
   pointsGeometry.getAttribute('customColor').array[datasetIndex] = colorRGB;
 }
 
@@ -144,8 +135,7 @@ function setPointColor(datasetIndex, colorRGB)
  * @param {Integer} datasetIndex : index of point to change
  * @param {Number} size : New size for  the point
  */
-function setPointScale(datasetIndex, size)
-{
+function setPointScale(datasetIndex, size) {
   pointsGeometry.getAttribute('size').array[datasetIndex] = size;
 }
 
@@ -158,10 +148,9 @@ function setPointScale(datasetIndex, size)
  * @return {Number} integer color value from position.
  */
 function colorFromXYZcoords(vec3) {
-
-  var r = 0;
-  var g = 0;
-  var b = 0;
+  let r = 0;
+  let g = 0;
+  let b = 0;
   // Truncating the first and last 16 of each value because
   // toString(16) doesn't return leading zeros.
   if (largestX > 0 && largestY > 0 && largestZ > 0) {
